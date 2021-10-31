@@ -2,28 +2,45 @@ import cherio from "cherio";
 import { getContent } from "../helpers/puppeteer.js";
 
 export default async function getOrganizationFeatures(page) {
-  await page.waitForSelector("._name_features", {
-    timeout: 100,
-  });
   try {
-    await page.click("._name_features");
-  } catch {}
-  await page.waitForTimeout(100);
-  try {
-    await page.waitForSelector(".business-feature-a11y-group-view", {
-      timeout: 2000,
+    await page.waitForSelector("._name_features", {
+      timeout: 3000,
     });
-  } catch {
-    try {
-      await page.click("._name_features");
+    await page.click("._name_features");
 
+    await page.waitForTimeout(100);
+    try {
       await page.waitForSelector(".business-feature-a11y-group-view", {
         timeout: 2000,
       });
     } catch {
+      await page.waitForSelector(".business-features-view__bool-text", {
+        timeout: 2000,
+      });
+    }
+  } catch {
+    try {
+      await page.waitForSelector("._name_features", {
+        timeout: 3000,
+      });
+      await page.click("._name_features");
+
+      try {
+        await page.waitForSelector(".business-feature-a11y-group-view", {
+          timeout: 2000,
+        });
+      } catch {
+        await page.waitForSelector(".business-features-view__bool-text", {
+          timeout: 2000,
+        });
+      }
+    } catch (e) {
+      console.log("no features");
+
       return;
     }
   }
+  await page.waitForTimeout(500);
 
   const pageContent = await getContent(page);
   const $ = cherio.load(pageContent);

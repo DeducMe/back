@@ -76,4 +76,10 @@ export async function findOrganization(page, name) {
     } catch {}
   }
   await page.focus('button[type="button"]');
+  try {
+    await page.click(".search-snippet-view__link-overlay");
+  } catch {}
+  try {
+    await page.waitForSelector(".card-title-view__title-link");
+  } catch {}
 }

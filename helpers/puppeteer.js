@@ -9,7 +9,7 @@ export const LAUNCH_PUPPETEER_OPTS = {
     "--disable-gpu",
     "--window-size=1920x1080",
   ],
-  headless: true,
+  headless: false,
 };
 
 export const PAGE_PUPPETEER_OPTS = {
@@ -31,6 +31,16 @@ export async function launchPuppeteer() {
 export async function closeBrowser(index) {
   try {
     browsers[index].close();
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function closeAllBrowsers() {
+  try {
+    for (const browser of browsers) {
+      browser.close();
+    }
   } catch (err) {
     throw err;
   }

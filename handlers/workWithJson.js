@@ -10,3 +10,7 @@ export async function updateOrganizationsJson(data) {
 export async function getOrganizationsJson() {
   return JSON.parse(fs.readFileSync("./jsonData/myjsonfile.json", "utf-8"));
 }
+
+export async function getNewDataJson() {
+  return JSON.parse(fs.readFileSync("./jsonData/dataTest.json", "utf-8"));
+}

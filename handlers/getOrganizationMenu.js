@@ -3,18 +3,14 @@ import { getContent } from "../helpers/puppeteer.js";
 
 export default async function getOrganizationMenu(page) {
   try {
-    await page.click(".search-snippet-view__link-overlay");
-  } catch {}
-  try {
-    await page.waitForSelector(".card-title-view__title-link");
-  } catch {}
-  try {
+    await page.waitForSelector("._name_menu", {
+      timeout: 3000,
+    });
     await page.click("._name_menu");
   } catch (e) {
     await page.waitForTimeout(100);
 
-    await page.waitForSelector("._type_close");
-    await page.click("._type_close");
+    console.log("no menu");
     return null;
   }
 
@@ -86,9 +82,7 @@ export default async function getOrganizationMenu(page) {
   } catch (e) {
     console.log("Error on getting menu\n", e);
   }
-
-  await page.waitForSelector("._type_close");
-  await page.click("._type_close");
+  console.log("menu done");
 
   return menuPositions;
 }

@@ -43,3 +43,20 @@ export async function getOrganizationLogo(page) {
     }
   }
 }
+
+export async function getOrganizationSpecialOffers(page) {
+  try {
+    await page.waitForSelector(".card-special-offers-view", {
+      timeout: 1000,
+    });
+    const pageContent = await getContent(page);
+    const $ = cherio.load(pageContent);
+    const carouselImages = [];
+    $(".card-special-offers-view").each((i, el) => {
+      $(".card-special-offers-view__item-img", el).each((i, el) => {
+        carouselImages.push($(el).attr("src"));
+      });
+    });
+    return carouselImages;
+  } catch {}
+}

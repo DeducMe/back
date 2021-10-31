@@ -2,11 +2,30 @@ import cherio from "cherio";
 import { getContent } from "../helpers/puppeteer.js";
 
 export default async function getOrganizationImages(page) {
-  await page.waitForSelector("._name_gallery");
+  try {
+    await page.waitForSelector("._name_gallery", {
+      timeout: 3000,
+    });
 
-  await page.click("._name_gallery");
+    await page.click("._name_gallery");
+    try {
+      await page.waitForSelector(".photo-wrapper__photo", {
+        timeout: 2000,
+      });
+    } catch {
+      try {
+        await page.click("._name_gallery");
 
-  await page.waitForSelector(".photo-wrapper__photo");
+        await page.waitForSelector(".photo-wrapper__photo", {
+          timeout: 2000,
+        });
+      } catch {
+        return null;
+      }
+    }
+  } catch {
+    return null;
+  }
   const photoItemsNum = await page.evaluate((selector) => {
     return document.getElementsByClassName(selector)?.length;
   }, "photo-list__frame-wrapper");
@@ -31,8 +50,6 @@ export default async function getOrganizationImages(page) {
   $(".photo-wrapper__photo").each((i, el) => {
     images.push($(el).attr("src"));
   });
-  await page.waitForSelector("._name_overview");
-  await page.click("._name_overview");
 
   await page.waitForTimeout(300);
 
