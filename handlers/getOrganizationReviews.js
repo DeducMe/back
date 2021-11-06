@@ -94,17 +94,20 @@ export default async function getOrganizationReviews(page) {
 
   $(".business-review-view__info").each((i, el) => {
     const userReviewsItem = {};
-    userReviewsItem.text = $(".business-review-view__body-text", el).text();
+    userReviewsItem.text = $(".business-review-view__body-text", el)
+      .text()
+      .trim()
+      .replace(/\n/g, "");
     userReviewsItem.author = $(".business-review-view__author", el)
       .children("a")
       .eq(0)
-      .text();
+      .text()
+      .trim();
     $("._empty", el).each((i, el) => $(el).remove());
 
     userReviewsItem.stars = $(".business-rating-badge-view__star", el).length;
     reviews.userReviews.push(userReviewsItem);
   });
-  console.log(reviews.userReviews.length);
 
   await page.waitForTimeout(100);
   return reviews;

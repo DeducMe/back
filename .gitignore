@@ -58,3 +58,5 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
+barViewApi/localhost-key.pem
+barViewApi/localhost.pem

@@ -9,7 +9,7 @@ export const LAUNCH_PUPPETEER_OPTS = {
     "--disable-gpu",
     "--window-size=1920x1080",
   ],
-  headless: false,
+  headless: true,
 };
 
 export const PAGE_PUPPETEER_OPTS = {
