@@ -133,7 +133,7 @@ function dropDatabase() {
   });
 }
 
-function connectToDatabase() {
+export default function connectToDatabase() {
   conn.connect(function (err) {
     console.log("Connected!");
     if (err) throw err;
@@ -153,7 +153,6 @@ function connectToDatabase() {
 
 // dropDatabase();
 // setTimeout(() => {
-connectToDatabase();
 // }, 1000);
 
 // main();
