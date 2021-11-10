@@ -1,3 +1,4 @@
+//module.js:
 var fs = require("fs");
 
 const mysql = require("mysql2");
@@ -133,7 +134,7 @@ function dropDatabase() {
   });
 }
 
-export default function connectToDatabase() {
+connectToDatabase = () => {
   conn.connect(function (err) {
     console.log("Connected!");
     if (err) throw err;
@@ -149,7 +150,9 @@ export default function connectToDatabase() {
       console.log("Table created");
     });
   });
-}
+};
+
+module.exports = { connectToDatabase };
 
 // dropDatabase();
 // setTimeout(() => {
