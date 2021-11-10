@@ -5,8 +5,10 @@ const httpsAgent = new https.Agent({
   rejectUnauthorized: false,
 });
 
+const site = "https://bar-view-back.herokuapp.com";
+
 export function getOrganizationInfo() {
-  return fetch("https://localhost:8443/organization/info", {
+  return fetch(`${site}/organization/info`, {
     agent: httpsAgent,
     headers: {
       "Content-Type": "application/json",
@@ -16,7 +18,7 @@ export function getOrganizationInfo() {
 }
 
 export function getOrganizationCoords() {
-  fetch("https://localhost:8443/organization/coords", {
+  fetch(`${site}/organization/coords`, {
     agent: httpsAgent,
     headers: {
       "Content-Type": "application/json",
@@ -26,7 +28,7 @@ export function getOrganizationCoords() {
 }
 
 export function postOrganization(body) {
-  return fetch("https://localhost:8443/organization", {
+  return fetch(`${site}/organization`, {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -38,7 +40,7 @@ export function postOrganization(body) {
 }
 
 function get() {
-  fetch("https://localhost:8443/", {
+  fetch(`${site}/`, {
     agent: httpsAgent,
     headers: {
       "Content-Type": "application/json",

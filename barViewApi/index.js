@@ -137,7 +137,6 @@ function dropDatabase() {
 connectToDatabase = () => {
   conn.connect(function (err) {
     console.log("Connected!");
-    if (err) throw err;
 
     const sql =
       "CREATE TABLE organizations (name VARCHAR(255), address VARCHAR(255), coordinatesX FLOAT, coordinatesY FLOAT, id VARCHAR(255), url VARCHAR(255), phones VARCHAR(255), categories VARCHAR(255),rating FLOAT, logo VARCHAR(255), menuFeatures TEXT, elseFeatures TEXT, organizationImages TEXT, menuPositions MEDIUMTEXT, userReviews MEDIUMTEXT, reviewsCategories TEXT)";
