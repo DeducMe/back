@@ -4,7 +4,7 @@ const mysql = require("mysql2");
 const express = require("express");
 const bodyParser = require("body-parser");
 
-const port = 8443;
+const port = process.env.PORT || 8443;
 
 const app = express();
 
