@@ -41,21 +41,31 @@ export default async function getOrganizationReviews(page) {
     }
   }
   await page.waitForTimeout(500);
-  const blockItemAmount = await page.evaluate(
-    (el) => parseInt(document.querySelector(el).textContent),
-    ".business-reviews-card-view__title .card-section-header__title"
-  );
-
-  for (let i = 0; i < (blockItemAmount > 300 ? 300 : blockItemAmount); i++) {
-    await page.evaluate(
-      (selector, i) => {
-        const element = document.getElementsByClassName(selector)[i];
-        if (element) element.scrollIntoView();
-      },
-      "business-reviews-card-view__review",
-      i
+  try {
+    await page.waitForSelector(
+      ".business-reviews-card-view__title .card-section-header__title",
+      {
+        timeout: 3000,
+      }
     );
-    await page.waitForTimeout(50);
+    const blockItemAmount = await page.evaluate(
+      (el) => parseInt(document.querySelector(el)?.textContent),
+      ".business-reviews-card-view__title .card-section-header__title"
+    );
+
+    for (let i = 0; i < (blockItemAmount > 300 ? 300 : blockItemAmount); i++) {
+      await page.evaluate(
+        (selector, i) => {
+          const element = document.getElementsByClassName(selector)[i];
+          if (element) element.scrollIntoView();
+        },
+        "business-reviews-card-view__review",
+        i
+      );
+      await page.waitForTimeout(50);
+    }
+  } catch (e) {
+    console.log("reviews err \n", e);
   }
 
   const pageContent = await getContent(page);

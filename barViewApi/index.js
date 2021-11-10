@@ -1,25 +1,10 @@
-var https = require("https");
-const rootCas = require("ssl-root-cas").create();
-rootCas
-  .inject()
-  .addFile(__dirname + "/localhost-key.pem")
-  .addFile(__dirname + "/localhost.pem");
-https.globalAgent.options.ca = rootCas;
-
 var fs = require("fs");
 
 const mysql = require("mysql2");
 const express = require("express");
 const bodyParser = require("body-parser");
 
-let sslOptions;
-let server;
 const port = 8443;
-
-sslOptions = {
-  key: fs.readFileSync("./localhost-key.pem"),
-  cert: fs.readFileSync("./localhost.pem"),
-};
 
 const app = express();
 
@@ -33,9 +18,8 @@ app.get("/organization/info", (req, res) =>
 );
 
 app.post("/organization", (req, res) => reciever(req, res, postOrganization));
-server = https.createServer(sslOptions, app);
 
-server.listen(port, () => {
+app.listen(port, () => {
   console.log("Server is running on port ", port);
 });
 

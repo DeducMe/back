@@ -73,7 +73,7 @@ async function getOrganizationData(json, browserIndex, updateJson) {
 
 export default async function main() {
   const startData = await getNewDataFromApi();
-
+  console.log(startData);
   async function updateJson(item) {
     const itemCoords = item.geometry.coordinates;
     const itemProps = item.properties;
@@ -112,11 +112,11 @@ export default async function main() {
           );
         }) || null,
       userReviews:
-        itemMeta.reviews.userReviews?.map(
+        itemMeta.reviews?.userReviews?.map(
           (item) => item.text + "=+=" + item.author + "=+=" + item.stars
         ) || null,
       reviewsCategories:
-        itemMeta.reviews.reviewsCategories?.map(
+        itemMeta.reviews?.reviewsCategories?.map(
           (item) =>
             item.title +
             "=+=" +
@@ -130,7 +130,7 @@ export default async function main() {
 
     postOrganization(normailizedItem).then((data) => {
       console.log("posted", itemMeta.id);
-      getOrganizationInfo().then((data) => updateOrganizationsJson(data));
+      // getOrganizationInfo().then((data) => updateOrganizationsJson(data));
     });
   }
 
@@ -140,7 +140,7 @@ export default async function main() {
     await launchPuppeteer();
     const sendData = [].concat(startData).reverse();
     const a = new Promise((resolve, reject) => {
-      resolve(getOrganizationData(startData, i, updateJson));
+      resolve(getOrganizationData(sendData, i, updateJson));
     });
     browserOpened.push(a);
   }
