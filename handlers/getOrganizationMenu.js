@@ -71,7 +71,7 @@ export default async function getOrganizationMenu(page) {
         $(".related-product-view__price", el).each((i, el) => {
           dish.price = $(el).text();
         });
-        if (Object.keys(dish).length > 0) dishes.push(dish);
+        if (Object.keys(dish)?.length > 0) dishes.push(dish);
       });
 
       menuPositions.push({

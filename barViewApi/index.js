@@ -68,7 +68,7 @@ function getCoords(sendBack) {
 function postOrganization(sendBack, data) {
   const sql = `SELECT id from organizations WHERE id=${data.id}`;
   conn.query(sql, function (err, result) {
-    if (result.length > 0) {
+    if (result?.length > 0) {
       console.log("put org", data.id);
       putOrganization(sendBack, data);
     } else {

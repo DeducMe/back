@@ -8,7 +8,7 @@ export async function getOrganizations(name) {
   for (let i = 0; i < 300; i++) {
     await page.evaluate((selector) => {
       const elements = document.getElementsByClassName(selector);
-      const element = elements[elements.length - 1];
+      const element = elements[elements?.length - 1];
       if (element) {
         element.scrollIntoView();
       }

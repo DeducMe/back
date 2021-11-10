@@ -115,7 +115,7 @@ export default async function getOrganizationReviews(page) {
       .trim();
     $("._empty", el).each((i, el) => $(el).remove());
 
-    userReviewsItem.stars = $(".business-rating-badge-view__star", el).length;
+    userReviewsItem.stars = $(".business-rating-badge-view__star", el)?.length;
     reviews.userReviews.push(userReviewsItem);
   });
 
