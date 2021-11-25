@@ -2,15 +2,9 @@ import {
   launchPuppeteer,
   createNewPage,
   closeBrowser,
-  closeAllBrowsers,
 } from "./helpers/puppeteer.js";
 
-import {
-  postOrganization,
-  getOrganizationInfo,
-  getOrganizationCoords,
-  postHours,
-} from "./apiQueries/index.js";
+import { postOrganization, postHours } from "./apiQueries/index.js";
 
 import getOrganizationFeatures from "./handlers/getOrganizationFeatures.js";
 import getOrganizationReviews from "./handlers/getOrganizationReviews.js";
@@ -21,12 +15,7 @@ import {
   getOrganizationRating,
   getOrganizationSpecialOffers,
 } from "./handlers/getOrganizationMain.js";
-import {
-  getOrganizationsJson,
-  getNewDataJson,
-  updateOrganizationsJson,
-  getNewDataFromApi,
-} from "./handlers/workWithJson.js";
+import { getNewDataFromApi } from "./handlers/workWithJson.js";
 import { findOrganization } from "./handlers/getOther.js";
 
 const CITY = "Москва";
@@ -74,7 +63,7 @@ async function getOrganizationData(json, browserIndex, updateJson) {
   }
 }
 
-export default async function main() {
+async function main() {
   const startData = await getNewDataFromApi();
   console.log(startData);
   async function updateJson(item) {
@@ -131,6 +120,7 @@ export default async function main() {
         ) || null,
     };
 
+    //переписать кринж ниже
     const normailizedHours = {
       id: itemMeta.id,
       text: itemMeta.Hours.text,
@@ -218,13 +208,4 @@ export default async function main() {
   await Promise.all(tasksRunning).then(main);
 }
 
-// const newData = await getNewDataJson();
-
-// const oldItemIndex = newData.findIndex(
-//   (el) =>
-//     el.properties.CompanyMetaData.id === item.properties.CompanyMetaData.id
-// );
-// if (oldItemIndex !== -1) {
-//   newData[oldItemIndex] = item;
-// } else newData.push(item);
-// updateOrganizationsJson(newData);
+main();

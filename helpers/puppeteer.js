@@ -36,16 +36,6 @@ export async function closeBrowser(index) {
   }
 }
 
-export async function closeAllBrowsers() {
-  try {
-    for (const browser of browsers) {
-      browser.close();
-    }
-  } catch (err) {
-    throw err;
-  }
-}
-
 export async function createNewPage(url, index) {
   try {
     const page = await browsers[index].newPage();

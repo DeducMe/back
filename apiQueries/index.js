@@ -7,26 +7,6 @@ const httpsAgent = new https.Agent({
 
 const site = "https://bar-view-back.herokuapp.com";
 
-export function getOrganizationInfo() {
-  return fetch(`${site}/organization/info`, {
-    agent: httpsAgent,
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-  }).then((data) => data.json());
-}
-
-export function getOrganizationCoords() {
-  fetch(`${site}/organization/coords`, {
-    agent: httpsAgent,
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-  }).then((data) => data.json());
-}
-
 export function postHours(body) {
   return fetch(`${site}/organization/hours`, {
     headers: {
@@ -53,16 +33,4 @@ export function postOrganization(body) {
   }).then((data) => {
     console.log(data.status);
   });
-}
-
-function get() {
-  fetch(`${site}/`, {
-    agent: httpsAgent,
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-  })
-    .then((data) => data.json())
-    .then((data) => console.log(data));
 }

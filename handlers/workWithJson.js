@@ -1,17 +1,4 @@
-import * as fs from "fs";
 import fetch from "node-fetch";
-
-export async function updateOrganizationsJson(data) {
-  await fs.writeFileSync("./jsonData/data.json", JSON.stringify(data, 0, 2));
-}
-
-export async function getOrganizationsJson() {
-  return JSON.parse(fs.readFileSync("./jsonData/myjsonfile.json", "utf-8"));
-}
-
-export async function getNewDataJson() {
-  return JSON.parse(fs.readFileSync("./jsonData/dataTest.json", "utf-8"));
-}
 
 export async function getNewDataFromApi() {
   const wR = [];
