@@ -20,9 +20,9 @@ export const PAGE_PUPPETEER_OPTS = {
 
 const browsers = [];
 
-export async function launchPuppeteer() {
+export async function launchPuppeteer(index) {
   try {
-    browsers.push(await puppeteer.launch(LAUNCH_PUPPETEER_OPTS));
+    browsers[index] = await puppeteer.launch(LAUNCH_PUPPETEER_OPTS);
   } catch (err) {
     throw err;
   }

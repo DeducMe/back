@@ -27,6 +27,21 @@ export function getOrganizationCoords() {
   }).then((data) => data.json());
 }
 
+export function postHours(body) {
+  console.log(body);
+  return fetch(`${site}/organization/hours`, {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    agent: httpsAgent,
+    method: "POST",
+    body: JSON.stringify(body),
+  }).then((data) => {
+    console.log(data.status);
+  });
+}
+
 export function postOrganization(body) {
   return fetch(`${site}/organization`, {
     headers: {
@@ -36,7 +51,9 @@ export function postOrganization(body) {
     agent: httpsAgent,
     method: "POST",
     body: JSON.stringify(body),
-  }).then((data) => data.json());
+  }).then((data) => {
+    console.log(data.status);
+  });
 }
 
 function get() {

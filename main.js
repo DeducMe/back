@@ -9,6 +9,7 @@ import {
   postOrganization,
   getOrganizationInfo,
   getOrganizationCoords,
+  postHours,
 } from "./apiQueries/index.js";
 
 import getOrganizationFeatures from "./handlers/getOrganizationFeatures.js";
@@ -35,13 +36,14 @@ const BROWSER_PAGES = 2;
 const SITE = "https://yandex.ru/maps/?ll=37.736061%2C55.737109&z=9.4";
 
 async function getOrganizationData(json, browserIndex, updateJson) {
-  const page = await createNewPage(SITE, browserIndex - 1);
-
   for (
     let dataIndex = browserIndex - 1;
     dataIndex < json.length;
     dataIndex = dataIndex + BROWSER_PAGES
   ) {
+    await launchPuppeteer(browserIndex - 1);
+    const page = await createNewPage(SITE, browserIndex - 1);
+
     const item = json[dataIndex];
     const meta = item.properties.CompanyMetaData;
 
@@ -68,6 +70,7 @@ async function getOrganizationData(json, browserIndex, updateJson) {
 
     console.log(dataIndex, meta.name);
     updateJson(item);
+    closeBrowser(browserIndex - 1);
   }
 }
 
@@ -128,23 +131,91 @@ export default async function main() {
         ) || null,
     };
 
+    const normailizedHours = {
+      id: itemMeta.id,
+      text: itemMeta.Hours.text,
+      Everyday: "",
+      Monday: "",
+      Tuesday: "",
+      Wednesday: "",
+      Thursday: "",
+      Friday: "",
+      Saturday: "",
+      Sunday: "",
+    };
+
+    itemMeta.Hours.Availabilities.forEach((item) => {
+      normailizedHours.Everyday = item.Everyday
+        ? `${item.Intervals[0].from.slice(
+            0,
+            -3
+          )} - ${item.Intervals[0].to.slice(0, -3)}`
+        : normailizedHours.Everyday;
+      normailizedHours.Monday = item.Monday
+        ? `${item.Intervals[0].from.slice(
+            0,
+            -3
+          )} - ${item.Intervals[0].to.slice(0, -3)}`
+        : normailizedHours.Monday;
+      normailizedHours.Tuesday = item.Tuesday
+        ? `${item.Intervals[0].from.slice(
+            0,
+            -3
+          )} - ${item.Intervals[0].to.slice(0, -3)}`
+        : normailizedHours.Tuesday;
+      normailizedHours.Wednesday = item.Wednesday
+        ? `${item.Intervals[0].from.slice(
+            0,
+            -3
+          )} - ${item.Intervals[0].to.slice(0, -3)}`
+        : normailizedHours.Wednesday;
+      normailizedHours.Thursday = item.Thursday
+        ? `${item.Intervals[0].from.slice(
+            0,
+            -3
+          )} - ${item.Intervals[0].to.slice(0, -3)}`
+        : normailizedHours.Thursday;
+      normailizedHours.Friday = item.Friday
+        ? `${item.Intervals[0].from.slice(
+            0,
+            -3
+          )} - ${item.Intervals[0].to.slice(0, -3)}`
+        : normailizedHours.Friday;
+      normailizedHours.Saturday = item.Saturday
+        ? `${item.Intervals[0].from.slice(
+            0,
+            -3
+          )} - ${item.Intervals[0].to.slice(0, -3)}`
+        : normailizedHours.Saturday;
+      normailizedHours.Sunday = item.Sunday
+        ? `${item.Intervals[0].from.slice(
+            0,
+            -3
+          )} - ${item.Intervals[0].to.slice(0, -3)}`
+        : normailizedHours.Sunday;
+    });
+
     postOrganization(normailizedItem).then((data) => {
       console.log("posted", itemMeta.id);
       // getOrganizationInfo().then((data) => updateOrganizationsJson(data));
     });
+
+    postHours(normailizedHours).then((data) => {
+      console.log("addedHours", itemMeta.id);
+      // getOrganizationInfo().then((data) => updateOrganizationsJson(data));
+    });
   }
 
-  const browserOpened = [];
+  const tasksRunning = [];
 
   for (let i = 1; i < BROWSER_PAGES + 1; i++) {
-    await launchPuppeteer();
     const sendData = [].concat(startData).reverse();
     const a = new Promise((resolve, reject) => {
       resolve(getOrganizationData(sendData, i, updateJson));
     });
-    browserOpened.push(a);
+    tasksRunning.push(a);
   }
-  await Promise.all(browserOpened).then(main);
+  await Promise.all(tasksRunning).then(main);
 }
 
 // const newData = await getNewDataJson();
