@@ -28,7 +28,6 @@ export function getOrganizationCoords() {
 }
 
 export function postHours(body) {
-  console.log(body);
   return fetch(`${site}/organization/hours`, {
     headers: {
       Accept: "application/json",
