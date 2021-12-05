@@ -7,6 +7,20 @@ const httpsAgent = new https.Agent({
 
 const site = "https://bar-view-back.herokuapp.com";
 
+export function postMenu(body) {
+  return fetch(`${site}/organization/menu`, {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    agent: httpsAgent,
+    method: "POST",
+    body: JSON.stringify(body),
+  }).then((data) => {
+    console.log(data.status);
+  });
+}
+
 export function postHours(body) {
   return fetch(`${site}/organization/hours`, {
     headers: {
