@@ -34,7 +34,7 @@ export default async function getOrganizationMenu(page) {
         "business-full-items-grouped-view__item",
         i
       );
-      await page.waitForTimeout(50);
+      await page.waitForTimeout(100);
     }
 
     const pageContent = await getContent(page);
@@ -48,7 +48,7 @@ export default async function getOrganizationMenu(page) {
 
       const dishes = [];
 
-      $(".business-full-items-grouped-view__item").each((i, el) => {
+      $(".business-full-items-grouped-view__item", el).each((i, el) => {
         const dish = {};
 
         $(".related-item-photo-view__title", el).each((i, el) => {
